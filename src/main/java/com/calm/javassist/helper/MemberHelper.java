@@ -37,7 +37,14 @@ public abstract class MemberHelper<T extends CtMember> implements Helper<T> {
 		addAttributes(attr);
 		return new AnnationHelper(a, cp);
 	}
-	
+	/**
+	 * 添加注解
+	 * @param className
+	 * @return
+	 */
+	public AnnationHelper addAnnation(Class<?> className){
+		return addAnnation(className.getName());
+	}
 	public T getTarget() {
 		return target;
 	}
