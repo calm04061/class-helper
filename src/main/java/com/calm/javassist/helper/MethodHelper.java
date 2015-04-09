@@ -1,19 +1,17 @@
 package com.calm.javassist.helper;
 
 import javassist.CtMethod;
-import javassist.bytecode.AnnotationsAttribute;
 import javassist.bytecode.ClassFile;
 import javassist.bytecode.ConstPool;
 
-public class MethodHelper extends MemberHelper<CtMethod>{
+/**
+ * 方法处理器
+ * @author dingqihui
+ *
+ */
+public class MethodHelper extends BehaviorHelper<CtMethod>{
 
 	MethodHelper(CtMethod member, ConstPool cp, ClassFile cf) {
 		super(member, cp, cf);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	void addAttributes(AnnotationsAttribute attr) {
-		member.getMethodInfo().getAttributes().add(attr);
 	}
 }

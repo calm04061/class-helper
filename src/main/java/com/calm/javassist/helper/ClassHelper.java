@@ -13,6 +13,11 @@ import javassist.NotFoundException;
 import javassist.bytecode.ClassFile;
 import javassist.bytecode.ConstPool;
 
+/**
+ * 类处理器
+ * @author dingqihui
+ *
+ */
 public class ClassHelper {
 	private ClassPool pool = ClassPool.getDefault();
 	private ClassFile cf;
@@ -39,6 +44,11 @@ public class ClassHelper {
 		return new ClassHelper(loader);
 	}
 
+	/**
+	 * 制作类
+	 * @param name
+	 * @return
+	 */
 	public ClassHelper makeClass(String name) {
 		makeClass = pool.makeClass(name);
 		cf = makeClass.getClassFile();
@@ -46,18 +56,37 @@ public class ClassHelper {
 		return this;
 	}
 
+	/**
+	 * 添加属性
+	 * @param code
+	 * @return
+	 * @throws CannotCompileException
+	 */
 	public FieldHelper addField(String code) throws CannotCompileException {
 		CtField field = CtField.make(code, makeClass);
 		makeClass.addField(field);
 		return new FieldHelper(field,cp,cf);
 	}
 	
+	/**
+	 * 添加方法
+	 * @param code
+	 * @return
+	 * @throws CannotCompileException
+	 */
 	public MethodHelper addMethod(String code) throws CannotCompileException {
 		CtMethod method = CtMethod.make(code, makeClass);
 		makeClass.addMethod(method);
 		return new MethodHelper(method,cp,cf);
 	}
 
+	/**
+	 * 设置父类
+	 * @param classname
+	 * @return
+	 * @throws CannotCompileException
+	 * @throws NotFoundException
+	 */
 	public ClassHelper setSupperClass(String classname) throws CannotCompileException,
 			NotFoundException {
 		CtClass ctClass = pool.get(classname);
