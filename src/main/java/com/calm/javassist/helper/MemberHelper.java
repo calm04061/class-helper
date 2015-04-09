@@ -13,12 +13,12 @@ import javassist.bytecode.annotation.Annotation;
  * @param <T>
  */
 public abstract class MemberHelper<T extends CtMember> implements Helper<T> {
-	protected final T member;
+	protected final T target;
 	protected ConstPool cp;
 	protected  ClassFile cf;
 	
-	MemberHelper(T member, ConstPool cp, ClassFile cf) {
-		this.member = member;
+	MemberHelper(T target, ConstPool cp, ClassFile cf) {
+		this.target = target;
 		this.cp = cp;
 		this.cf = cf;
 	}
@@ -36,6 +36,10 @@ public abstract class MemberHelper<T extends CtMember> implements Helper<T> {
 		cf.setVersionToJava5();
 		addAttributes(attr);
 		return new AnnationHelper(a, cp);
+	}
+	
+	public T getTarget() {
+		return target;
 	}
 	
 	/**

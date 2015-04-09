@@ -22,6 +22,6 @@ public class FieldHelper extends MemberHelper<CtField>{
 	@SuppressWarnings("unchecked")
 	@Override
 	void addAttributes(AnnotationsAttribute attr) {
-		member.getFieldInfo().getAttributes().add(attr);
+		target.getFieldInfo().getAttributes().add(attr);
 	}
 }

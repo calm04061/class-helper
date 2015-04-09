@@ -8,6 +8,7 @@ import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtField;
 import javassist.CtMethod;
+import javassist.CtNewMethod;
 import javassist.LoaderClassPath;
 import javassist.NotFoundException;
 import javassist.bytecode.ClassFile;
@@ -79,7 +80,30 @@ public class ClassHelper {
 		makeClass.addMethod(method);
 		return new MethodHelper(method,cp,cf);
 	}
-
+	/**
+	 * 添加get方法
+	 * @param methodName
+	 * @return
+	 * @throws CannotCompileException
+	 */
+	public MethodHelper addGetMethod(String methodName,FieldHelper field) throws CannotCompileException {
+		CtMethod method = CtNewMethod.getter(methodName, field.getTarget());
+		makeClass.addMethod(method);
+		return new MethodHelper(method,cp,cf);
+	}
+	
+	/**
+	 * 添加get方法
+	 * @param methodName
+	 * @return
+	 * @throws CannotCompileException
+	 */
+	public MethodHelper addSetMethod(String methodName,FieldHelper field) throws CannotCompileException {
+		CtMethod method = CtNewMethod.setter(methodName, field.getTarget());
+		makeClass.addMethod(method);
+		return new MethodHelper(method,cp,cf);
+	}
+	
 	/**
 	 * 设置父类
 	 * @param classname
@@ -92,5 +116,14 @@ public class ClassHelper {
 		CtClass ctClass = pool.get(classname);
 		makeClass.setSuperclass(ctClass);
 		return this;
+	}
+	
+	/**
+	 * 生成类对象
+	 * @return
+	 * @throws CannotCompileException
+	 */
+	public Class<?> toClass() throws CannotCompileException{
+		return makeClass.toClass();
 	}
 }

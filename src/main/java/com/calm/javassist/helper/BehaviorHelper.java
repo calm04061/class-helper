@@ -23,7 +23,7 @@ public class BehaviorHelper<T extends CtBehavior> extends MemberHelper<T> {
 	@SuppressWarnings("unchecked")
 	@Override
 	void addAttributes(AnnotationsAttribute attr) {
-		member.getMethodInfo().getAttributes().add(attr);
+		target.getMethodInfo().getAttributes().add(attr);
 	}
 
 }
