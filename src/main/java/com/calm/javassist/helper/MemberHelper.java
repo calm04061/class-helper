@@ -28,21 +28,19 @@ public abstract class MemberHelper<T extends CtMember> implements Helper<T> {
 	 * @param className
 	 * @return
 	 */
-	public AnnationHelper addAnnation(String className){
-		AnnotationsAttribute attr = new AnnotationsAttribute(cp,AnnotationsAttribute.visibleTag);
+	@SuppressWarnings("unchecked")
+	public<E extends MemberHelper<? extends CtMember>> AnnationHelper<E> addAnnation(String className){
+		
 		Annotation a = new Annotation(className, cp);
-		attr.setAnnotation(a);
-		cf.addAttribute(attr);
-		cf.setVersionToJava5();
-		addAttributes(attr);
-		return new AnnationHelper(a, cp);
+
+		return new AnnationHelper<E>((E) this,a, cp,cf);
 	}
 	/**
 	 * 添加注解
 	 * @param className
 	 * @return
 	 */
-	public AnnationHelper addAnnation(Class<?> className){
+	public <E extends MemberHelper<? extends CtMember>> AnnationHelper<E> addAnnation(Class<?> className){
 		return addAnnation(className.getName());
 	}
 	public T getTarget() {
