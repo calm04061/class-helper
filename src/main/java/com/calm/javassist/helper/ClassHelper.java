@@ -33,6 +33,10 @@ public class ClassHelper {
 		}
 	}
 
+	/**
+	 * 获得类处理器
+	 * @return
+	 */
 	public static ClassHelper getHelper() {
 		ClassLoader loader = Thread.currentThread().getContextClassLoader();
 		return new ClassHelper(loader);

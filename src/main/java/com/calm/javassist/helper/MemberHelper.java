@@ -12,7 +12,7 @@ import javassist.bytecode.annotation.Annotation;
  *
  * @param <T>
  */
-public abstract class MemberHelper<T extends CtMember> implements Helper<T> {
+public abstract class MemberHelper<T extends CtMember> {
 	protected final T target;
 	protected ConstPool cp;
 	protected  ClassFile cf;
