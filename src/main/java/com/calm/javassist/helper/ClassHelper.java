@@ -127,7 +127,8 @@ public class ClassHelper {
 	 * @return
 	 * @throws CannotCompileException
 	 */
-	public Class<?> toClass() throws CannotCompileException{
+	@SuppressWarnings("unchecked")
+	public<T> Class<T> toClass() throws CannotCompileException{
 		return makeClass.toClass();
 	}
 }
