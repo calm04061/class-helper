@@ -26,7 +26,7 @@ public abstract class MemberHelper<T extends CtMember> {
 	/**
 	 * 添加注解
 	 * @param className
-	 * @return
+	 * @return 返回注解对象
 	 */
 	@SuppressWarnings("unchecked")
 	public<E extends MemberHelper<? extends CtMember>> AnnationHelper<E> addAnnation(String className){
@@ -38,11 +38,14 @@ public abstract class MemberHelper<T extends CtMember> {
 	/**
 	 * 添加注解
 	 * @param className
-	 * @return
+	 * @return 返回注解对象
 	 */
 	public <E extends MemberHelper<? extends CtMember>> AnnationHelper<E> addAnnation(Class<?> className){
 		return addAnnation(className.getName());
 	}
+	/**
+	 * @return 返回目标处理器
+	 */
 	public T getTarget() {
 		return target;
 	}

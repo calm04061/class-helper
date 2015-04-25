@@ -11,7 +11,7 @@ import javassist.bytecode.ConstPool;
  *
  * @param <T>
  */
-public class BehaviorHelper<T extends CtBehavior> extends MemberHelper<T> {
+public abstract class BehaviorHelper<T extends CtBehavior> extends MemberHelper<T> {
 
 	BehaviorHelper(T member, ConstPool cp, ClassFile cf) {
 		super(member, cp, cf);

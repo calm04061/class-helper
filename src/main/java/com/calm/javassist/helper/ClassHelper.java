@@ -34,14 +34,20 @@ public class ClassHelper {
 	}
 
 	/**
-	 * 获得类处理器
-	 * @return
+	 * 获得类处理器 根据当前类加载器
+	 * 
+	 * @return 得到类处理器
 	 */
 	public static ClassHelper getHelper() {
 		ClassLoader loader = Thread.currentThread().getContextClassLoader();
 		return new ClassHelper(loader);
 	}
-
+	
+	/**
+	 * 根据类加载器获得类处理器
+	 * @param loader
+	 * @return 得到类处理器
+	 */
 	public static ClassHelper getHelper(ClassLoader loader) {
 		if (loader == null) {
 			throw new IllegalArgumentException("classLoader must be not null!");
@@ -52,7 +58,7 @@ public class ClassHelper {
 	/**
 	 * 制作类
 	 * @param name
-	 * @return
+	 * @return 返回当前类处理器
 	 */
 	public ClassHelper makeClass(String name) {
 		makeClass = pool.makeClass(name);
@@ -64,7 +70,7 @@ public class ClassHelper {
 	/**
 	 * 添加属性
 	 * @param code
-	 * @return
+	 * @return 返回属性处理器
 	 * @throws CannotCompileException
 	 */
 	public FieldHelper addField(String code) throws CannotCompileException {
@@ -76,7 +82,7 @@ public class ClassHelper {
 	/**
 	 * 添加方法
 	 * @param code
-	 * @return
+	 * @return 返回方法处理器
 	 * @throws CannotCompileException
 	 */
 	public MethodHelper addMethod(String code) throws CannotCompileException {
@@ -87,7 +93,7 @@ public class ClassHelper {
 	/**
 	 * 添加get方法
 	 * @param methodName
-	 * @return
+	 * @return 返回方法处理器
 	 * @throws CannotCompileException
 	 */
 	public MethodHelper addGetMethod(String methodName,FieldHelper field) throws CannotCompileException {
@@ -97,9 +103,9 @@ public class ClassHelper {
 	}
 	
 	/**
-	 * 添加get方法
+	 * 添加set方法
 	 * @param methodName
-	 * @return
+	 * @return 返回方法处理器
 	 * @throws CannotCompileException
 	 */
 	public MethodHelper addSetMethod(String methodName,FieldHelper field) throws CannotCompileException {
@@ -111,7 +117,7 @@ public class ClassHelper {
 	/**
 	 * 设置父类
 	 * @param classname
-	 * @return
+	 * @return 返回当前类处理器
 	 * @throws CannotCompileException
 	 * @throws NotFoundException
 	 */
@@ -124,7 +130,7 @@ public class ClassHelper {
 	
 	/**
 	 * 生成类对象
-	 * @return
+	 * @return 生成<code>Class<code>类
 	 * @throws CannotCompileException
 	 */
 	@SuppressWarnings("unchecked")
