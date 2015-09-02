@@ -1,5 +1,10 @@
 package com.calm.javassist.helper;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,11 +30,18 @@ public class ClassHelper {
 	private ConstPool cp;
 	private CtClass makeClass;
 	private Set<ClassLoader> loaders = new HashSet<ClassLoader>();
-
+	private URLClassLoader fscl;
 	private ClassHelper(ClassLoader loader) {
 		if (!loaders.contains(loader)) {
 			loaders.add(loader);
 			pool.insertClassPath(new LoaderClassPath(loader));
+		}
+		String property = System.getProperty("java.io.tmpdir");
+		File file=new File(property);
+		try {
+			fscl = new URLClassLoader(new URL[] { file.toURI().toURL() });
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -62,6 +74,20 @@ public class ClassHelper {
 	 */
 	public ClassHelper makeClass(String name) {
 		makeClass = pool.makeClass(name);
+		cf = makeClass.getClassFile();
+		cp = cf.getConstPool();
+		return this;
+	}
+	
+	/**
+	 * 制作类
+	 * @param name
+	 * @return 返回当前类处理器
+	 * @throws NotFoundException 
+	 */
+	public ClassHelper getClass(String name) throws NotFoundException {
+		makeClass = pool.get(name);
+		makeClass.defrost();
 		cf = makeClass.getClassFile();
 		cp = cf.getConstPool();
 		return this;
@@ -132,9 +158,13 @@ public class ClassHelper {
 	 * 生成类对象
 	 * @return 生成<code>Class<code>类
 	 * @throws CannotCompileException
+	 * @throws IOException 
 	 */
-	@SuppressWarnings("unchecked")
-	public<T> Class<T> toClass() throws CannotCompileException{
-		return makeClass.toClass();
+	@SuppressWarnings({ "unchecked"})
+	public<T> Class<T> toClass() throws CannotCompileException, IOException{
+		String property = System.getProperty("java.io.tmpdir");
+		makeClass.writeFile(property);
+		return makeClass.toClass(fscl,fscl.getClass().getProtectionDomain());
 	}
+	
 }
