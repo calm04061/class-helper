@@ -34,6 +34,7 @@ public class ClassHelperTest {
 		make.addSetMethod("setID", addField);
 		
 		Class<?> clazz  = make.toClass();
+		System.out.println(clazz.hashCode());
 		Method method = clazz.getMethod("setID",String.class);
 		System.out.println(method);
 		helper = ClassHelper.getHelper();
@@ -48,6 +49,7 @@ public class ClassHelperTest {
 		helper.addSetMethod("setNAME", addField);
 		
 		clazz=helper.toClass();
+		System.out.println(clazz.hashCode());
 		method = clazz.getMethod("setNAME",String.class);
 		System.out.println(method);
 		
