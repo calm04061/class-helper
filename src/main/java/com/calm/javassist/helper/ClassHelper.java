@@ -30,11 +30,18 @@ public class ClassHelper {
 	private ConstPool cp;
 	private CtClass makeClass;
 	private Set<ClassLoader> loaders = new HashSet<ClassLoader>();
-
+	private URLClassLoader fscl;
 	private ClassHelper(ClassLoader loader) {
 		if (!loaders.contains(loader)) {
 			loaders.add(loader);
 			pool.insertClassPath(new LoaderClassPath(loader));
+		}
+		String property = System.getProperty("java.io.tmpdir");
+		File file=new File(property);
+		try {
+			fscl = new URLClassLoader(new URL[] { file.toURI().toURL() });
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -73,17 +80,7 @@ public class ClassHelper {
 	}
 	
 	/**
-	 * 获得已有类
-	 * @param name
-	 * @return 返回当前类处理器
-	 * @throws NotFoundException 
-	 */
-	public ClassHelper getClass(Class<?> name) throws NotFoundException {
-		return getClass(name.getName());
-	}
-	
-	/**
-	 * 获得已有类
+	 * 制作类
 	 * @param name
 	 * @return 返回当前类处理器
 	 * @throws NotFoundException 
@@ -106,39 +103,6 @@ public class ClassHelper {
 		CtField field = CtField.make(code, makeClass);
 		makeClass.addField(field);
 		return new FieldHelper(field,cp,cf);
-	}
-	/**
-	 * 获得属性
-	 * @param name 属性名
-	 * @return
-	 * @throws NotFoundException
-	 */
-	public FieldHelper getField(String name) throws NotFoundException{
-		CtField field = makeClass.getField(name);
-		return new FieldHelper(field,cp,cf);
-	}
-	/**
-	 * 获得所有属性
-	 * @param name 属性名
-	 * @return
-	 * @throws NotFoundException
-	 */
-	public FieldHelper[] getFields() throws NotFoundException{
-		CtField[] fields = makeClass.getFields();
-		FieldHelper[] fieldHelpers=new FieldHelper[fields.length];
-		for(int i=0;i<fields.length;i++){
-			fieldHelpers[i]=new FieldHelper(fields[i], cp, cf);
-		}
-		return fieldHelpers;
-	}
-	/**
-	 * 删除属性
-	 * @param name 属性名
-	 * @return
-	 * @throws NotFoundException
-	 */
-	public void removeField(FieldHelper field) throws NotFoundException{
-		makeClass.removeField(field.getTarget());
 	}
 	
 	/**
@@ -175,29 +139,7 @@ public class ClassHelper {
 		makeClass.addMethod(method);
 		return new MethodHelper(method,cp,cf);
 	}
-	/**
-	 * 获得所有属性
-	 * @param name 属性名
-	 * @return
-	 * @throws NotFoundException
-	 */
-	public MethodHelper[] getMethods() throws NotFoundException{
-		CtMethod[] fields = makeClass.getMethods();
-		MethodHelper[] fieldHelpers=new MethodHelper[fields.length];
-		for(int i=0;i<fields.length;i++){
-			fieldHelpers[i]=new MethodHelper(fields[i], cp, cf);
-		}
-		return fieldHelpers;
-	}
-	/**
-	 * 删除属性
-	 * @param name 属性名
-	 * @return
-	 * @throws NotFoundException
-	 */
-	public void removeMethod(MethodHelper field) throws NotFoundException{
-		makeClass.removeMethod(field.getTarget());
-	}
+	
 	/**
 	 * 设置父类
 	 * @param classname
