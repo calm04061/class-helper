@@ -1,5 +1,10 @@
 package com.calm.javassist.helper;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -211,9 +216,13 @@ public class ClassHelper {
 	 * 生成类对象
 	 * @return 生成<code>Class<code>类
 	 * @throws CannotCompileException
+	 * @throws IOException 
 	 */
-	@SuppressWarnings("unchecked")
-	public<T> Class<T> toClass() throws CannotCompileException{
-		return makeClass.toClass();
+	@SuppressWarnings({ "unchecked"})
+	public<T> Class<T> toClass() throws CannotCompileException, IOException{
+		String property = System.getProperty("java.io.tmpdir");
+		makeClass.writeFile(property);
+		return makeClass.toClass(fscl,fscl.getClass().getProtectionDomain());
 	}
+	
 }
