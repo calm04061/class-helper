@@ -104,7 +104,29 @@ public class ClassHelper {
 		makeClass.addField(field);
 		return new FieldHelper(field,cp,cf);
 	}
-	
+	/**
+	 * 获得所有属性
+	 * @param name 属性名
+	 * @return
+	 * @throws NotFoundException
+	 */
+	public FieldHelper[] getFields() throws NotFoundException{
+		CtField[] fields = makeClass.getFields();
+		FieldHelper[] fieldHelpers=new FieldHelper[fields.length];
+		for(int i=0;i<fields.length;i++){
+			fieldHelpers[i]=new FieldHelper(fields[i], cp, cf);
+		}
+		return fieldHelpers;
+	}
+	/**
+	 * 删除属性
+	 * @param name 属性名
+	 * @return
+	 * @throws NotFoundException
+	 */
+	public void removeField(FieldHelper field) throws NotFoundException{
+		makeClass.removeField(field.getTarget());
+	}
 	/**
 	 * 添加方法
 	 * @param code
@@ -139,7 +161,29 @@ public class ClassHelper {
 		makeClass.addMethod(method);
 		return new MethodHelper(method,cp,cf);
 	}
-	
+	/**
+	 * 获得所有属性
+	 * @param name 属性名
+	 * @return
+	 * @throws NotFoundException
+	 */
+	public MethodHelper[] getMethods() throws NotFoundException{
+		CtMethod[] fields = makeClass.getMethods();
+		MethodHelper[] fieldHelpers=new MethodHelper[fields.length];
+		for(int i=0;i<fields.length;i++){
+			fieldHelpers[i]=new MethodHelper(fields[i], cp, cf);
+		}
+		return fieldHelpers;
+	}
+	/**
+	 * 删除属性
+	 * @param name 属性名
+	 * @return
+	 * @throws NotFoundException
+	 */
+	public void removeMethod(MethodHelper field) throws NotFoundException{
+		makeClass.removeMethod(field.getTarget());
+	}
 	/**
 	 * 设置父类
 	 * @param classname
